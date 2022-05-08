@@ -5,13 +5,14 @@ export type NotesProperties = {
 }
 
 export type Response = {
-  state: string;
+  state: number;
   type: 'add' | 'read' | 'edit' | 'remove' | 'list';
+  title?: string;
   user?: string;
   body?: string;
   color?: string;
   err?: string;
-  notes?: NotesProperties;
+  notes?: NotesProperties[];
 }
 
 export type Request = {
