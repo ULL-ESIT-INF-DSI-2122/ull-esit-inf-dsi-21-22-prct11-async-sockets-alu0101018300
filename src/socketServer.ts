@@ -1,7 +1,7 @@
 import {EventEmitter} from 'events';
 import {MyEventEmitter} from './myEventEmitter';
 import * as net from 'net';
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import {Response} from './dataType';
 import {NotesManager} from './notesManager';
 

@@ -2,7 +2,7 @@ import * as net from 'net';
 import {MyEventEmitter} from './myEventEmitter';
 
 import * as yargs from 'yargs';
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import {Request} from './dataType';
 
 

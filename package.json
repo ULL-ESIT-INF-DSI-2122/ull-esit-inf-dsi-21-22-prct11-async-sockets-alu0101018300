@@ -31,7 +31,7 @@
     "typedoc": "^0.22.15"
   },
   "dependencies": {
-    "chalk": "^5.0.1",
+    "chalk": "^4.1.2",
     "yargs": "^17.4.1"
   }
 }
