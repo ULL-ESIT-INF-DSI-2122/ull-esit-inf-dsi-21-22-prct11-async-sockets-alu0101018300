@@ -23,6 +23,11 @@ export class NotesManager {
     }
   }
 
+  private travelNotes(path: string) {
+    const note = JSON.parse(fs.readFileSync(path, 'utf8'));
+    return note;
+  }
+
   public addNote(user:string, title:string, body:string, color:string): Response {
     this.establishPath(user);
     this.addFolder();
@@ -53,5 +58,30 @@ export class NotesManager {
       };
     }
     return this._response;
+    }
+
+  public readNote(user:string, title:string): Response {
+      this.establishPath(user);
+      const notePath: string = this._path + '/' + title + '.json';
+      if (fs.existsSync(notePath)) {
+        const note = this.travelNotes(notePath);
+        const body = note.body;
+        const color = note.color;
+        this._response = {
+          state: 1,
+          type: 'read',
+          title: title,
+          body: body,
+          color: color,
+        };
+      } else {
+        this._response = {
+          state: 0,
+          type: 'read',
+          title: title,
+          err: 'This note does NOT exist.',
+        };
+      }
+      return this._response;
     }
 }
