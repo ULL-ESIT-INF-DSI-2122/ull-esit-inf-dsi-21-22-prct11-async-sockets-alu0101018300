@@ -106,4 +106,24 @@ export class NotesManager {
     }
     return this._response;
   }
+
+  public removeNote(user: string, title: string): Response {
+    this.establishPath(user);
+    if (fs.existsSync(this._path + '/' + title + '.json')) {
+      fs.unlinkSync(this._path + '/' + title + '.json');
+      this._response = {
+        state: 1,
+        type: 'remove',
+        title: title,
+      };
+    } else {
+      this._response = {
+        state: 0,
+        type: 'remove',
+        title: title,
+        err: 'This note does NOT exist.',
+      };
+    }
+    return this._response;
+  }
 }
