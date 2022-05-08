@@ -3,6 +3,10 @@ import {Response} from './dataType';
 import {NotesType} from './dataType';
 import { notesManagement } from './notesManagement';
 
+/**
+ * Clase que implementa las funcionalidades sobre las notas
+ * y que retornan un tipo de datos Response
+ */
 export class NotesManager implements notesManagement {
     private _path: string = '';
     private _res: Response = {
@@ -13,21 +17,41 @@ export class NotesManager implements notesManagement {
     constructor() {
     }
 
+    /**
+     * Función que settea el nuevo path donde se va a trabajar
+     * con las notas
+     * @param user Usuario de las notas
+     */
     private establishPath(user:string):void {
       this._path = user;
     }
 
+    /**
+     * Función que crea un directorio para un usuario en caso 
+     * de que sea necesario
+     */
     private addFolder() {
       if (!fs.existsSync(this._path)) {
         fs.mkdirSync(this._path, {recursive: true});
       }
     }
 
+    /**
+     * Función que recorre todas las notas de un usuario
+     * @param path Ruta donde se alojan las notas
+     */
     private travelNotes(path:string) {
       const note = JSON.parse(fs.readFileSync(path, 'utf8'));
       return note;
     }
 
+    /**
+     * Función que añade una nueva nota
+     * @param user Propietario de la nota
+     * @param title Título de la nota
+     * @param body Contenido de la nota
+     * @param color Color de la nota
+     */
     public addNote(user: string, title: string, body: string, color: string): Response {
       this.establishPath(user);
       this.addFolder();
@@ -60,6 +84,11 @@ export class NotesManager implements notesManagement {
       return this._res;
     }
 
+    /**
+     * Función que lee el contenido de una nota
+     * @param user Propietario de la nota
+     * @param title Título de la nota
+     */
     public readNote(user: string, title: string): Response {
       this.establishPath(user);
       const notePath: string = this._path + '/' + title + '.json';
@@ -85,6 +114,13 @@ export class NotesManager implements notesManagement {
       return this._res;
     }
 
+    /**
+     * Función que modifica el contenido de una nota
+     * @param user Propietario de la nota
+     * @param title Título de la nota
+     * @param body Nuevo contenido de la nota
+     * @param color Nuevo color para la nota
+     */
     public editNote(user: string, title: string, body: string, color: string): Response {
       this.establishPath(user);
       if (fs.existsSync(this._path + '/' + title + '.json')) {
@@ -107,6 +143,11 @@ export class NotesManager implements notesManagement {
       return this._res;
     }
 
+    /**
+     * Función que elimina una nota
+     * @param user Propietario de la nota 
+     * @param title Título de la nota
+     */
     public removeNote(user: string, title: string): Response {
       this.establishPath(user);
       if (fs.existsSync(this._path + '/' + title + '.json')) {
@@ -127,6 +168,10 @@ export class NotesManager implements notesManagement {
       return this._res;
     }
 
+  /**
+   * Función que lista todas las notas de un usuario
+   * @param user Propietario de las notas que se quieren consultar
+   */
   public listNotes(user: string): Response {
     const notes: NotesType[] = [];
     this.establishPath(user);

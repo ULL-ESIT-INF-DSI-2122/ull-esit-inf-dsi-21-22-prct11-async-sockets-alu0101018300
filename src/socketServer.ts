@@ -5,6 +5,10 @@ import * as chalk from 'chalk';
 import {Response} from './dataType';
 import {NotesManager} from './notesManager';
 
+/**
+ * Clase que hereda de EventEmitter que gestionará el envío de respuestas
+ * desde el servidor al cliente
+ */
 export class EventEmitterServer extends EventEmitter {
   private _port: number;
   private _res: Response = {

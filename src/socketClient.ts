@@ -5,6 +5,11 @@ import * as yargs from 'yargs';
 import * as chalk from 'chalk';
 import {Request} from './dataType';
 
+/**
+ * Función que imprime una nota en el color correspondiente
+ * @param color Color en el que se va a imprimir
+ * @param body Contenido de la nota
+ */
 function printColor(color: string, body: string): void {
   if (color === 'red') {
     console.log(chalk.red(body));
@@ -28,7 +33,10 @@ let req: Request = {
   type: 'list',
 };
 
-
+/**
+ * Función que comprueba que un color está dentro de los disponibles
+ * @param color Color que queremos comprobar
+ */
 export function checkColor(color: string): string {
   const colors: string[] = ['red', 'green', 'blue', 'yellow'];
   let finalColor: string = '';
@@ -43,7 +51,9 @@ export function checkColor(color: string): string {
   return finalColor;
 }
 
-
+/**
+ * Comando para añadir una nota
+ */
 yargs.command({
   command: 'add',
   describe: 'Writing a new note',
@@ -85,7 +95,9 @@ yargs.command({
   },
 });
 
-
+/**
+ * Comando para leer una nota
+ */
 yargs.command({
   command: 'read',
   describe: 'Read a certain note',
@@ -112,6 +124,9 @@ yargs.command({
   },
 });
 
+/**
+ * Comando para modificar una nota
+ */
 yargs.command({
   command: 'edit',
   describe: 'Modify the content of an already existing note',
@@ -152,6 +167,9 @@ yargs.command({
   },
 });
 
+/**
+ * Comando para eliminar una nota
+ */
 yargs.command({
   command: 'remove',
   describe: 'Delete a note by the title and the owner',
@@ -178,6 +196,9 @@ yargs.command({
   },
 });
 
+/**
+ * Comando para listar las notas de un usuario
+ */
 yargs.command({
   command: 'list',
   describe: 'List all the notes from a certain user',
@@ -200,6 +221,9 @@ yargs.command({
 
 yargs.parse();
 
+/**
+ * Envío de la respuesta en caso de error desde el servidor al cliente
+ */
 client.write(JSON.stringify(req) + '\n', (err) => {
   if (err) {
     console.log(chalk.red.inverse('Error: ' + err));
@@ -208,6 +232,9 @@ client.write(JSON.stringify(req) + '\n', (err) => {
   };
 });
 
+/**
+ * Envío de la información necesaria en función del resultado del comando
+ */
 socket.on('message', (data) => {
   const aux = JSON.stringify(data); 
   const response = JSON.parse(aux);
@@ -237,7 +264,9 @@ socket.on('message', (data) => {
 },
 );
 
-
+/**
+ * Gestión del cierre de la conexión con el cliente
+ */
 socket.on('close', () => {
   console.log(chalk.red.inverse('Connection closed'));
 });

@@ -1,6 +1,11 @@
 {
     "entryPoints": [
-        "./src/index.ts"
+        "./src/dataType.ts",
+        "./src/myEventEmitter.ts",
+        "./src/notesManagement.ts",
+        "./src/notesManager.ts",
+        "./src/socketClient.ts",
+        "./src/socketServer.ts"
       ],
     "out": "documentation/"
   }

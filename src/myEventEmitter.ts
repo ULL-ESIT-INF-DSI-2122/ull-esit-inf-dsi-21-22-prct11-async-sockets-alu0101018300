@@ -1,6 +1,9 @@
 import {EventEmitter} from 'events';
 
-
+/**
+ * Clase que hereda de EventEmitter para poder enviar mensajes
+ * de manera parcial.
+ */
 export class MyEventEmitter extends EventEmitter {
   constructor(connection: EventEmitter) {
     super();
