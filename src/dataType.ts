@@ -1,26 +1,25 @@
-export type NotesProperties = {
+export type NotesType = {
   title: string;
-  body: string;
   color: string;
+  body: string;
 }
 
 export type Response = {
   state: number;
-  type: 'add' | 'read' | 'edit' | 'remove' | 'list';
   title?: string;
   user?: string;
   body?: string;
   color?: string;
-  err?: string;
-  notes?: NotesProperties[];
+  error?: string;
+  type: 'add' | 'read' | 'edit' | 'remove' | 'list';
+  notes?: NotesType[];
 }
+
 
 export type Request = {
   user: string;
-  type: 'add' | 'read' | 'edit' | 'remove' | 'list';
   title?: string;
   body?: string;
   color?: string;
+  type: 'add' | 'read' | 'edit' | 'remove' | 'list';
 }
-
-export type Colors = 'red' | 'blue' | 'green' | 'yellow';

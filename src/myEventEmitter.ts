@@ -1,18 +1,19 @@
 import {EventEmitter} from 'events';
 
+
 export class MyEventEmitter extends EventEmitter {
   constructor(connection: EventEmitter) {
     super();
-    let completeMessage: string = '';
+    let wholeData = '';
     connection.on('data', (dataChunk) => {
-      completeMessage += dataChunk;
+      wholeData += dataChunk;
 
-      let limit: number = completeMessage.indexOf('\n');
+      let limit = wholeData.indexOf('\n');
       while (limit !== -1) {
-        const message: string = completeMessage.substring(0, limit);
-        completeMessage = completeMessage.substring(limit + 1);
+        const message = wholeData.substring(0, limit);
+        wholeData = wholeData.substring(limit + 1);
         this.emit('message', JSON.parse(message));
-        limit = completeMessage.indexOf('\n');
+        limit = wholeData.indexOf('\n');
       }
     });
   }
