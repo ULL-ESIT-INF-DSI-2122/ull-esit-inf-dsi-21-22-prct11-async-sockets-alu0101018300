@@ -1,1 +1,7 @@
+title: Sistema de ficheros y creación de procesos en Node.js
+author: Adrian Ramos Mejias
+email: alu0101018300@ull.edu.es
+description: > # this means to ignore newlines until "baseurl:"
+  Desarrollo de la practica 11 de la asignatura de Desarrollo de Sistemas 
+  Informáticos, donde hay que familiarizarse con el uso de sockets.
 theme: jekyll-theme-cayman
