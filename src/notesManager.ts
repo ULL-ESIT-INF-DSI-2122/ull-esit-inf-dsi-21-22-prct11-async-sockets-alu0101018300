@@ -16,7 +16,7 @@ export class NotesManager implements notesManagement {
     this._path = user;
   }
 
-  private addFolder() {
+  private addFolder(): void {
     if (!fs.existsSync(this._path)) {
       fs.mkdirSync(this._path, {recursive: true});
     }

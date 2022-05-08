@@ -26,6 +26,7 @@
     "@types/mocha": "^9.1.1",
     "@types/yargs": "^17.0.10",
     "chai": "^4.3.6",
+    "events": "^3.3.0",
     "mocha": "^10.0.0",
     "ts-node": "^10.7.0",
     "typedoc": "^0.22.15"
