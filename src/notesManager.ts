@@ -28,16 +28,16 @@ export class NotesManager {
     return note;
   }
 
-  public addNote(user:string, title:string, body:string, color:string): Response {
+  public addNote(user: string, title: string, body: string, color: string): Response {
     this.establishPath(user);
     this.addFolder();
     const filepath = `${this._path}/${title}.json`;
     if (!fs.existsSync(filepath)) {
       fs.writeFileSync(this._path + '/' + title + '.json', JSON.stringify({
-        title: title,
-        body: body,
-        color: color,
-      }));
+      title: title,
+      body: body,
+      color: color,
+    }));
       this._response = {
         user: user,
         state: 1,
@@ -45,7 +45,7 @@ export class NotesManager {
         title: title,
         body: body,
         color: color,
-      };
+    };
     } else {
       this._response = {
         user: user,
@@ -58,30 +58,52 @@ export class NotesManager {
       };
     }
     return this._response;
-    }
+  }
 
   public readNote(user:string, title:string): Response {
-      this.establishPath(user);
-      const notePath: string = this._path + '/' + title + '.json';
-      if (fs.existsSync(notePath)) {
-        const note = this.travelNotes(notePath);
-        const body = note.body;
-        const color = note.color;
-        this._response = {
-          state: 1,
-          type: 'read',
-          title: title,
-          body: body,
-          color: color,
-        };
-      } else {
-        this._response = {
-          state: 0,
-          type: 'read',
-          title: title,
-          err: 'This note does NOT exist.',
-        };
-      }
-      return this._response;
+    this.establishPath(user);
+    const notePath: string = this._path + '/' + title + '.json';
+    if (fs.existsSync(notePath)) {
+      const note = this.travelNotes(notePath);
+      const body = note.body;
+      const color = note.color;
+      this._response = {
+        state: 1,
+        type: 'read',
+        title: title,
+        body: body,
+        color: color,
+      };
+    } else {
+      this._response = {
+        state: 0,
+        type: 'read',
+        title: title,
+        err: 'This note does NOT exist.',
+      };
     }
+    return this._response;
+  }
+
+  public editNote(user: string, title: string, body: string, color: string): Response {
+    this.establishPath(user);
+    if (fs.existsSync(this._path + '/' + title + '.json')) {
+      const note = this.travelNotes(this._path + '/' + title + '.json');
+      note.body = body;
+      note.color = color;
+      fs.writeFileSync(this._path + '/' + title + '.json', JSON.stringify(note));
+      this._response = {
+        state: 1,
+        type: 'edit',
+        title: title,
+      };
+    } else {
+      this._response = {
+        state: 0,
+        type: 'edit',
+        err: 'This note does NOT exist.',
+      };
+    }
+    return this._response;
+  }
 }
