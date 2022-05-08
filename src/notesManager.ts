@@ -1,6 +1,5 @@
 import * as fs from 'fs';
-import {Response} from './dataType';
-// import {NotesProperties} from './dataType';
+import {Response, NotesProperties} from './dataType';
 // import {notesManagement} from './notesManagement'
 
 export class NotesManager {
@@ -122,6 +121,44 @@ export class NotesManager {
         type: 'remove',
         title: title,
         err: 'This note does NOT exist.',
+      };
+    }
+    return this._response;
+  }
+
+  public listNotes(user:string): Response {
+    const notes: NotesProperties[] = [];
+    this.establishPath(user);
+    if (fs.existsSync(this._path)) {
+      const notesDir = fs.readdirSync(this._path);
+      if (notesDir.length > 0) {
+        for (let i:number = 0; i < notesDir.length; i++) {
+          const nota = this.travelNotes(this._path + '/' + notesDir[i]);
+          const title = nota.title;
+          const color = nota.color;
+          notes.push({
+            title: title,
+            color: color,
+            body: nota.body,
+          });
+        }
+        this._response = {
+          state: 1,
+          type: 'list',
+          notes: notes,
+        };
+      } else {
+        this._response = {
+          state: 0,
+          type: 'list',
+          err: 'This User has NOT got notes',
+        };
+      }
+    } else {
+      this._response = {
+        state: 0,
+        type: 'list',
+        err: `User does NOT exists yet.`,
       };
     }
     return this._response;
