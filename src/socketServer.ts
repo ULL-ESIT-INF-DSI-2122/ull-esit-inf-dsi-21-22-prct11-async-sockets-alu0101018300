@@ -6,14 +6,14 @@ import {Response} from './dataType';
 import {NotesManager} from './notesManager';
 
 export class EventEmitterServer extends EventEmitter {
-  private _port:number;
-  private _res:Response = {
+  private _port: number;
+  private _res: Response = {
     user: '',
     state: 0,
     type: 'list',
   };
 
-  constructor(port?:number) {
+  constructor(port?: number) {
     super();
     this._port = port || 30605;
     const note = new NotesManager();

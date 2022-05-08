@@ -4,8 +4,8 @@ import {NotesType} from './dataType';
 import { notesManagement } from './notesManagement';
 
 export class NotesManager implements notesManagement {
-    private _path:string = ' ';
-    private _res:Response = {
+    private _path: string = '';
+    private _res: Response = {
       user: '',
       state: 0,
       type: 'list',
@@ -24,11 +24,11 @@ export class NotesManager implements notesManagement {
     }
 
     private travelNotes(path:string) {
-      const nota = JSON.parse(fs.readFileSync(path, 'utf8'));
-      return nota;
+      const note = JSON.parse(fs.readFileSync(path, 'utf8'));
+      return note;
     }
 
-    public addNote(user:string, title:string, body:string, color:string):Response {
+    public addNote(user: string, title: string, body: string, color: string): Response {
       this.establishPath(user);
       this.addFolder();
       const filepath = `${this._path}/${title}.json`;
@@ -54,19 +54,19 @@ export class NotesManager implements notesManagement {
           title: title,
           body: body,
           color: color,
-          error: 'The note already exists.',
+          error: 'The Note Already Exists.',
         };
       }
       return this._res;
     }
 
-    public readNote(user:string, title:string):Response {
+    public readNote(user: string, title: string): Response {
       this.establishPath(user);
-      const notePath:string = this._path + '/' + title + '.json';
+      const notePath: string = this._path + '/' + title + '.json';
       if (fs.existsSync(notePath)) {
-        const nota = this.travelNotes(notePath);
-        const body = nota.body;
-        const color = nota.color;
+        const note = this.travelNotes(notePath);
+        const body = note.body;
+        const color = note.color;
         this._res = {
           state: 1,
           type: 'read',
@@ -85,13 +85,13 @@ export class NotesManager implements notesManagement {
       return this._res;
     }
 
-    public editNote(user:string, title:string, body:string, color:string):Response {
+    public editNote(user: string, title: string, body: string, color: string): Response {
       this.establishPath(user);
       if (fs.existsSync(this._path + '/' + title + '.json')) {
-        const nota = this.travelNotes(this._path + '/' + title + '.json');
-        nota.body = body;
-        nota.color = color;
-        fs.writeFileSync(this._path + '/' + title + '.json', JSON.stringify(nota));
+        const note = this.travelNotes(this._path + '/' + title + '.json');
+        note.body = body;
+        note.color = color;
+        fs.writeFileSync(this._path + '/' + title + '.json', JSON.stringify(note));
         this._res = {
           state: 1,
           type: 'edit',
@@ -101,13 +101,13 @@ export class NotesManager implements notesManagement {
         this._res = {
           state: 0,
           type: 'edit',
-          error: 'You cannot edit a note that does not exist.',
+          error: 'The Note Already Exists.',
         };
       }
       return this._res;
     }
 
-    public removeNote(user:string, title:string):Response {
+    public removeNote(user: string, title: string): Response {
       this.establishPath(user);
       if (fs.existsSync(this._path + '/' + title + '.json')) {
         fs.unlinkSync(this._path + '/' + title + '.json');
@@ -121,45 +121,45 @@ export class NotesManager implements notesManagement {
           state: 0,
           type: 'remove',
           title: title,
-          error: 'The note does not exist.',
+          error: 'The Note Already Exists.',
         };
       }
       return this._res;
     }
 
-  public listNotes(user:string):Response {
-    const Notes:NotesType[] = [];
+  public listNotes(user: string): Response {
+    const notes: NotesType[] = [];
     this.establishPath(user);
     if (fs.existsSync(this._path)) {
-      const notasDir = fs.readdirSync(this._path);
-      if (notasDir.length > 0) {
-        for (let i:number = 0; i < notasDir.length; i++) {
-          const nota = this.travelNotes(this._path + '/' + notasDir[i]);
-          const title = nota.title;
-          const color = nota.color;
-          Notes.push({
+      const notesDir = fs.readdirSync(this._path);
+      if (notesDir.length > 0) {
+        for (let i: number = 0; i < notesDir.length; i++) {
+          const note = this.travelNotes(this._path + '/' + notesDir[i]);
+          const title = note.title;
+          const color = note.color;
+         notes.push({
             title: title,
             color: color,
-            body: nota.body,
+            body: note.body,
           });
         }
         this._res = {
           state: 1,
           type: 'list',
-          notes: Notes,
+          notes:notes,
         };
       } else {
         this._res = {
           state: 0,
           type: 'list',
-          error: 'No notes to show.',
+          error: 'This User has NOT got notes.',
         };
       }
     } else {
       this._res = {
         state: 0,
         type: 'list',
-        error: `User ${user} have not created any note yet.`,
+        error: `User does NOT exists yet.`,
       };
     }
     return this._res;

@@ -5,7 +5,7 @@ import * as yargs from 'yargs';
 import * as chalk from 'chalk';
 import {Request} from './dataType';
 
-function printColor(color:string, body:string):void {
+function printColor(color: string, body: string): void {
   if (color === 'red') {
     console.log(chalk.red(body));
   } else if (color === 'green') {
@@ -17,10 +17,10 @@ function printColor(color:string, body:string):void {
   }
 }
 
-const client = net.connect({port: 30605}); // default port
+const client = net.connect({port: 30605}); 
 const socket = new MyEventEmitter(client);
 
-let req:Request = {
+let req: Request = {
   user: '',
   title: '',
   body: '',
@@ -29,9 +29,9 @@ let req:Request = {
 };
 
 
-export function checkColor(color:string):string {
+export function checkColor(color: string): string {
   const colors: string[] = ['red', 'green', 'blue', 'yellow'];
-  let finalColor:string = '';
+  let finalColor: string = '';
   for (let i: number = 0; i < colors.length; i++) {
     if (color === colors[i]) {
       finalColor = color;
@@ -139,7 +139,7 @@ yargs.command({
   },
   handler(argv) {
     if (typeof argv.user === 'string' && typeof argv.title === 'string' && typeof argv.body === 'string' && typeof argv.color === 'string') {
-      let finalColor:string = ' ';
+      let finalColor: string = ' ';
       finalColor = checkColor(argv.color);
       req = {
         user: argv.user,
