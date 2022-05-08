@@ -684,3 +684,4 @@ tipo que sea pues indicará como ha sido la misma. Finalmente, se destruye la co
 ## Pruebas
 
 Todas las pruebas que comprueban el correcto funcionamiento del código se encuentran alojadas en el directorio *./tests*
+
