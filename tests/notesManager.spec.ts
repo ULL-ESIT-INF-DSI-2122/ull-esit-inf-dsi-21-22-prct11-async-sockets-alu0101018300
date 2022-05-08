@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import 'mocha';
 import {NotesManager} from '../src/notesManager';
 
-const testNote = new NotesManager();
+const testNote: NotesManager = new NotesManager();
 describe('Tests NotesManager Methods', () => {
   it('There must be a class Notes', () => {
     expect(NotesManager).to.exist;
