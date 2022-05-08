@@ -4,7 +4,7 @@ import {notesManagement} from './notesManagement'
 
 export class NotesManager implements notesManagement {
   private _path: string = '';
-  private _response: Response = {
+  private _res: Response = {
     user: '',
     state: 0,
     type: 'list',
@@ -37,7 +37,7 @@ export class NotesManager implements notesManagement {
       body: body,
       color: color,
     }));
-      this._response = {
+      this._res = {
         user: user,
         state: 1,
         type: 'add',
@@ -46,7 +46,7 @@ export class NotesManager implements notesManagement {
         color: color,
     };
     } else {
-      this._response = {
+      this._res = {
         user: user,
         state: 0,
         type: 'add',
@@ -56,7 +56,7 @@ export class NotesManager implements notesManagement {
         err: 'The Note Already Exists.',
       };
     }
-    return this._response;
+    return this._res;
   }
 
   public readNote(user:string, title:string): Response {
@@ -66,7 +66,7 @@ export class NotesManager implements notesManagement {
       const note = this.travelNotes(notePath);
       const body = note.body;
       const color = note.color;
-      this._response = {
+      this._res = {
         state: 1,
         type: 'read',
         title: title,
@@ -74,14 +74,14 @@ export class NotesManager implements notesManagement {
         color: color,
       };
     } else {
-      this._response = {
+      this._res = {
         state: 0,
         type: 'read',
         title: title,
         err: 'This note does NOT exist.',
       };
     }
-    return this._response;
+    return this._res;
   }
 
   public editNote(user: string, title: string, body: string, color: string): Response {
@@ -91,39 +91,39 @@ export class NotesManager implements notesManagement {
       note.body = body;
       note.color = color;
       fs.writeFileSync(this._path + '/' + title + '.json', JSON.stringify(note));
-      this._response = {
+      this._res = {
         state: 1,
         type: 'edit',
         title: title,
       };
     } else {
-      this._response = {
+      this._res = {
         state: 0,
         type: 'edit',
         err: 'This note does NOT exist.',
       };
     }
-    return this._response;
+    return this._res;
   }
 
   public removeNote(user: string, title: string): Response {
     this.establishPath(user);
     if (fs.existsSync(this._path + '/' + title + '.json')) {
       fs.unlinkSync(this._path + '/' + title + '.json');
-      this._response = {
+      this._res = {
         state: 1,
         type: 'remove',
         title: title,
       };
     } else {
-      this._response = {
+      this._res = {
         state: 0,
         type: 'remove',
         title: title,
         err: 'This note does NOT exist.',
       };
     }
-    return this._response;
+    return this._res;
   }
 
   public listNotes(user:string): Response {
@@ -142,25 +142,25 @@ export class NotesManager implements notesManagement {
             body: nota.body,
           });
         }
-        this._response = {
+        this._res = {
           state: 1,
           type: 'list',
           notes: notes,
         };
       } else {
-        this._response = {
+        this._res = {
           state: 0,
           type: 'list',
           err: 'This User has NOT got notes',
         };
       }
     } else {
-      this._response = {
+      this._res = {
         state: 0,
         type: 'list',
         err: `User does NOT exists yet.`,
       };
     }
-    return this._response;
+    return this._res;
   }
 }
