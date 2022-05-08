@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import {Response, NotesProperties} from './dataType';
-// import {notesManagement} from './notesManagement'
+import {notesManagement} from './notesManagement'
 
-export class NotesManager {
+export class NotesManager implements notesManagement {
   private _path: string = '';
   private _response: Response = {
     user: '',
