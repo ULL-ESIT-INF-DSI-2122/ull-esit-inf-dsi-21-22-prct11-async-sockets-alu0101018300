@@ -22,3 +22,5 @@ export type Request = {
   body?: string;
   color?: string;
 }
+
+export type Colors = 'red' | 'blue' | 'green' | 'yellow';
